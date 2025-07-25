@@ -67,7 +67,7 @@ const ReactTable = <T,>({
             </tr>
           ))}
         </tbody>
-        {pageSize ? (
+        {table.getPageCount() > 1 ? (
           <tfoot>
             <tr>
               <td colSpan={table.getVisibleFlatColumns().length}>
@@ -78,7 +78,7 @@ const ReactTable = <T,>({
         ) : null}
       </TableBS>
       {table.getRowModel().rows.length <= 0
-        ? <div className="text-center p-1">{"Nenhuma linha encontrada"}</div>
+        ? <div className="text-center p-1">Nenhuma linha encontrada</div>
         : null
       }
     </>
