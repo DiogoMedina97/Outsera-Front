@@ -50,6 +50,11 @@ O projeto será executado em: [http://localhost:3000](http://localhost:3000)
   npm run lint
   ```
 
+- **Executar testes de integração**  
+  ```bash
+  npm test
+  ```
+
 ## Estrutura do Projeto
 
 ```
