@@ -24,6 +24,7 @@ export default defineConfig(({ mode }) => {
         "@layouts": path.resolve(__dirname, "src/layouts"),
         "@pages": path.resolve(__dirname, "src/pages"),
         "@router": path.resolve(__dirname, "src/router"),
+        "@shared": path.resolve(__dirname, "src/shared"),
         "@styles": path.resolve(__dirname, "src/styles")
       }
     }

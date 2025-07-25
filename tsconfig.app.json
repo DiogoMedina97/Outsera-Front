@@ -29,6 +29,7 @@
       "@layouts/*": ["layouts/*"],
       "@pages/*": ["pages/*"],
       "@router/*": ["router/*"],
+      "@shared/*": ["shared/*"],
       "@styles/*": ["styles/*"]
     }
   },
