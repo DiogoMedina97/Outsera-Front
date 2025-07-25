@@ -83,7 +83,7 @@ const ReactTable = <T,>({
         ) : null}
       </TableBS>
       {table.getRowModel().rows.length <= 0
-        ? <div className="text-center p-1">Nenhuma linha encontrada</div>
+        ? <div className="text-center p-1">No rows found</div>
         : null
       }
     </>
