@@ -6,6 +6,7 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
+    "types": ["vitest/globals", "@testing-library/jest-dom"],
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -30,7 +31,8 @@
       "@pages/*": ["pages/*"],
       "@router/*": ["router/*"],
       "@shared/*": ["shared/*"],
-      "@styles/*": ["styles/*"]
+      "@styles/*": ["styles/*"],
+      "@tests/*": ["../tests/*"],
     }
   },
   "include": ["src"]

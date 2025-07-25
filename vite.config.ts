@@ -8,6 +8,11 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react()],
+    test: {
+      globals: true,
+      environment: 'jsdom',
+      setupFiles: './tests/setup.ts',
+    },
     server: {
       port: parseInt(env.VITE_PORT) || 5173,
     },
@@ -25,7 +30,8 @@ export default defineConfig(({ mode }) => {
         "@pages": path.resolve(__dirname, "src/pages"),
         "@router": path.resolve(__dirname, "src/router"),
         "@shared": path.resolve(__dirname, "src/shared"),
-        "@styles": path.resolve(__dirname, "src/styles")
+        "@styles": path.resolve(__dirname, "src/styles"),
+        "@tests": path.resolve(__dirname, "tests")
       }
     }
   };
