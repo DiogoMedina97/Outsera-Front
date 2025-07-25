@@ -1,13 +1,15 @@
-import { Loading, ReactTable } from "@shared/components";
 import { useState } from "react";
-import { Button, Form, FormControl } from "react-bootstrap";
+import { Alert, Button, Form, FormControl } from "react-bootstrap";
 import { FaSearch } from "react-icons/fa";
+
+import { Loading, ReactTable } from "@shared/components";
+
 import useFetchWinnersByYear from "../useFetchWinnersByYear";
 
 // --------------------------------------------------
 
 const TableWinnersByYear = () => {
-  const { data, isLoading, fetch } = useFetchWinnersByYear();
+  const { data, isLoading, fetch, error } = useFetchWinnersByYear();
   const [year, setYear] = useState<number | null>(null);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -44,16 +46,22 @@ const TableWinnersByYear = () => {
           <FaSearch />
         </Button>
       </Form>
-      {isLoading ? <Loading /> : (
-        <ReactTable
-          columns={[
-            { header: "ID", accessorKey: "id" },
-            { header: "Year", accessorKey: "year" },
-            { header: "Title", accessorKey: "title" },
-          ]}
-          data={data || []}
-        />
-      )}
+      {isLoading
+        ? <Loading />
+        : (error
+          ? <Alert variant="danger" className="m-0">{error.message}</Alert>
+          : (
+            <ReactTable
+              columns={[
+                { header: "ID", accessorKey: "id" },
+                { header: "Year", accessorKey: "year" },
+                { header: "Title", accessorKey: "title" },
+              ]}
+              data={data || []}
+            />
+          )
+        )
+      }
     </>
   );
 };

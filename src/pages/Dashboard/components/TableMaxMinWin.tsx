@@ -1,3 +1,5 @@
+import { Alert } from "react-bootstrap";
+
 import { Loading, ReactTable } from "@shared/components";
 
 import useFetchMaxMinWin from "../useFetchMaxMinWin";
@@ -5,9 +7,10 @@ import useFetchMaxMinWin from "../useFetchMaxMinWin";
 // --------------------------------------------------
 
 const TableMaxMinWin = () => {
-  const { data, isLoading } = useFetchMaxMinWin();
+  const { data, isLoading, error } = useFetchMaxMinWin();
 
   if (isLoading) return <Loading />;
+  if (error) return <Alert variant="danger" className="m-0">{error.message}</Alert>;
 
   return (
     <>

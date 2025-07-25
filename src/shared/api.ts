@@ -1,4 +1,4 @@
-import axios, { type AxiosRequestConfig } from "axios";
+import axios, { AxiosError, type AxiosRequestConfig } from "axios";
 
 // --------------------------------------------------
 
@@ -10,6 +10,33 @@ const api = () => {
   const instance = axios.create({
     baseURL: VITE_API_URL,
   });
+
+  instance.interceptors.response.use(
+    (response) => response,
+    (error: AxiosError) => {
+      if (error.response) {
+        const data = error.response.data as {
+          type: string;
+          title: string;
+          status: number;
+          detail: string;
+          instance: string;
+        };
+
+        return Promise.reject({
+          status: data?.status || error.response.status,
+          message: data?.detail || data?.title || "An unexpected error has occurred.",
+          raw: data,
+        });
+      }
+
+      return Promise.reject({
+        status: 0,
+        message: "Unable to connect to the server. Please check your network connection.",
+        raw: error,
+      });
+    },
+  );
 
   return {
     get: <T>(url: string, config?: AxiosRequestConfig<T>) => (
