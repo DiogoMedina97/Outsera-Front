@@ -21,6 +21,7 @@ const TableMovies = () => {
         },
       ]}
       data={data || []}
+      pageSize={15}
     />
   );
 };
