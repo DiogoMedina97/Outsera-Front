@@ -1,14 +1,16 @@
 import {
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
   useReactTable,
+  type Column,
   type ColumnDef,
   type PaginationState,
   type Table,
 } from "@tanstack/react-table";
 import { useState } from "react";
-import { Table as TableBS, Pagination as PaginationBS } from "react-bootstrap";
+import { Table as TableBS, Pagination as PaginationBS, FormSelect, FormControl } from "react-bootstrap";
 
 // --------------------------------------------------
 
@@ -30,6 +32,8 @@ const ReactTable = <T,>({
     data,
     getCoreRowModel: getCoreRowModel(),
 
+    getFilteredRowModel: getFilteredRowModel(),
+
     getPaginationRowModel: getPaginationRowModel(),
     onPaginationChange: setPagination,
 
@@ -43,11 +47,12 @@ const ReactTable = <T,>({
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <th key={header.id} colSpan={header.colSpan}>
+                <th key={header.id} colSpan={header.colSpan} className="text-center align-middle">
                   {header.isPlaceholder ? null : flexRender(
                     header.column.columnDef.header,
                     header.getContext()
                   )}
+                  {header.column.getCanFilter() ? <Filter column={header.column} /> : null}
                 </th>
               ))}
             </tr>
@@ -83,6 +88,50 @@ const ReactTable = <T,>({
       }
     </>
   );
+};
+
+// --------------------------------------------------
+
+interface FilterProps<T> {
+  readonly column: Column<T, unknown>;
+}
+
+const Filter = <T,>({ column }: FilterProps<T>) => {
+  const columnFilterValue = column.getFilterValue();
+  const { filterVariant } = column.columnDef.meta ?? {};
+
+  if (filterVariant === "number") {
+    return (
+      <FormControl
+        type="number"
+        onChange={(e) => column.setFilterValue(e.target.value)}
+        value={columnFilterValue?.toString()}
+        placeholder={`Filter by ${column.columnDef.header?.toString().toLocaleLowerCase()}`}
+      />
+    );
+  }
+
+  if (filterVariant === "select") {
+    const options = Array.from(
+      new Set(column.getFacetedRowModel().rows.map((row) => row.getValue(column.id)))
+    ).filter((v) => v !== null);
+
+    return (
+      <FormSelect
+        onChange={(e) => column.setFilterValue(e.target.value)}
+        value={columnFilterValue?.toString()}
+      >
+        <option value="">All</option>
+        {options.map((option, index) => {
+          const value = option?.toString();
+
+          return <option key={index} value={value}>{value}</option>
+        })}
+      </FormSelect>
+    );
+  };
+
+  return null;
 };
 
 // --------------------------------------------------

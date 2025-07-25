@@ -12,12 +12,18 @@ const TableMovies = () => {
     <ReactTable
       columns={[
         { header: "ID", accessorKey: "id" },
-        { header: "Year", accessorKey: "year" },
+        {
+          header: "Year",
+          accessorKey: "year",
+          meta: { filterVariant: "number" },
+          filterFn: "includesString"
+        },
         { header: "Title", accessorKey: "title" },
         {
           header: "Winner?",
           accessorKey: "winner",
           accessorFn: ({ winner }) => winner ? "Yes" : "No",
+          meta: { filterVariant: "select" },
         },
       ]}
       data={data || []}
