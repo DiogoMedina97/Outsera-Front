@@ -1,34 +1,42 @@
-import { ReactTable } from "@shared/components";
+import { Loading, ReactTable } from "@shared/components";
+
+import useFetchMaxMinWin from "../useFetchMaxMinWin";
 
 // --------------------------------------------------
 
-const TableMaxMinWin = () => (
-  <>
-    <h6 className="fw-normal">Maximum</h6>
-    <ReactTable
-      columns={[
-        { header: "Producer", accessorKey: "producer" },
-        { header: "Interval", accessorKey: "interval" },
-        { header: "Previous Year", accessorKey: "previousWin" },
-        { header: "Following Year", accessorKey: "followingWin" },
-      ]}
-      data={[]}
-    />
+const TableMaxMinWin = () => {
+  const { data, isLoading } = useFetchMaxMinWin();
 
-    <hr className="border-0 my-2" />
+  if (isLoading) return <Loading />;
 
-    <h6 className="fw-normal">Minimum</h6>
-    <ReactTable
-      columns={[
-        { header: "Producer", accessorKey: "producer" },
-        { header: "Interval", accessorKey: "interval" },
-        { header: "Previous Year", accessorKey: "previousWin" },
-        { header: "Following Year", accessorKey: "followingWin" },
-      ]}
-      data={[]}
-    />
-  </>
-);
+  return (
+    <>
+      <h6 className="fw-normal">Maximum</h6>
+      <ReactTable
+        columns={[
+          { header: "Producer", accessorKey: "producer" },
+          { header: "Interval", accessorKey: "interval" },
+          { header: "Previous Year", accessorKey: "previousWin" },
+          { header: "Following Year", accessorKey: "followingWin" },
+        ]}
+        data={data?.max || []}
+      />
+
+      <hr className="border-0 my-2" />
+
+      <h6 className="fw-normal">Minimum</h6>
+      <ReactTable
+        columns={[
+          { header: "Producer", accessorKey: "producer" },
+          { header: "Interval", accessorKey: "interval" },
+          { header: "Previous Year", accessorKey: "previousWin" },
+          { header: "Following Year", accessorKey: "followingWin" },
+        ]}
+        data={data?.min || []}
+      />
+    </>
+  );
+};
 
 // --------------------------------------------------
 

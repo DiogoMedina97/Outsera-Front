@@ -1,16 +1,23 @@
-import { ReactTable } from "@shared/components";
+import { Loading, ReactTable } from "@shared/components";
+import useFetchMultipleWinners from "../useFetchMultipleWinners";
 
 // --------------------------------------------------
 
-const TableMultipleWinners = () => (
-  <ReactTable
-    columns={[
-      { header: "Year", accessorKey: "year" },
-      { header: "Win count", accessorKey: "winCount" },
-    ]}
-    data={[]}
-  />
-);
+const TableMultipleWinners = () => {
+  const { data, isLoading } = useFetchMultipleWinners();
+
+  if (isLoading) return <Loading />;
+
+  return (
+    <ReactTable
+      columns={[
+        { header: "Year", accessorKey: "year" },
+        { header: "Win count", accessorKey: "winnerCount" },
+      ]}
+      data={data || []}
+    />
+  );
+};
 
 // --------------------------------------------------
 
