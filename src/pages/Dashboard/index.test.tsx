@@ -1,8 +1,8 @@
 import { screen } from '@testing-library/react';
-import { renderWithProviders } from "@tests/test-utils";
+import { renderWithProviders } from "@/setupTests";
 import Dashboard from './index';
 
-describe('Dashboard Page', () => {
+describe('Dashboard', () => {
   it('Should render the table titles', () => {
     renderWithProviders(<Dashboard />);
     expect(screen.getByText(/List years with multiple winners/i)).toBeInTheDocument();

@@ -32,7 +32,7 @@
       "@router/*": ["router/*"],
       "@shared/*": ["shared/*"],
       "@styles/*": ["styles/*"],
-      "@tests/*": ["../tests/*"],
+      "@/*": ["../*"],
     }
   },
   "include": ["src"]
