@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { fetchMovies } from "./services";
+import { fetchMovies, type FetchMoviesProps } from "./services";
 
 // --------------------------------------------------
 
-const useFetchMovies = () => useQuery({
-  queryFn: fetchMovies,
-  queryKey: ["movies"],
+const useFetchMovies = (props: FetchMoviesProps) => useQuery({
+  queryFn: () => fetchMovies(props),
+  queryKey: ["movies", props],
 });
 
 // --------------------------------------------------

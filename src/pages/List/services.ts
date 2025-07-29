@@ -1,34 +1,21 @@
-import type { AxiosResponse } from "axios";
-
 import api from "@shared/api";
 
-import type { MoviesResponse, MovieInterface } from "./interfaces";
+import type { MoviesResponse } from "./interfaces";
 
 // --------------------------------------------------
 
-export const fetchMovies = async () => {
-  const data: MovieInterface[] = [];
-  const size = 15;
+export interface FetchMoviesProps {
+  readonly page: number;
+  readonly winner?: boolean;
+  readonly year?: number;
+}
 
-  const { data: firstData } = await api.get<MoviesResponse>("", {
-    params: { page: 0, size },
+export const fetchMovies = async ({
+  page, winner, year,
+}: FetchMoviesProps) => {
+  const { data } = await api.get<MoviesResponse>("", {
+    params: { page, size: 15, winner, year },
   });
 
-  data.push(...firstData.content);
-
-  const { totalPages } = firstData;
-
-  const promises: Promise<AxiosResponse<MoviesResponse>>[] = [];
-  for (let page = 1; page < totalPages; page++) {
-    promises.push(api.get<MoviesResponse>("", {
-      params: { page, size },
-    }));
-  }
-
-  const promisesResolve = await Promise.all(promises);
-  for (const result of promisesResolve) {
-    data.push(...result.data.content);
-  }
-
-  return data.sort((a, b) => a.id - b.id);
+  return data;
 };
